@@ -7,8 +7,8 @@ const App = () => {
     { role: "system", content: "Hello, I'm an assistant that can help you with tasks." }
   ]);
 
-  const apikey = "AIzaSyBRDG-mCuMgeE9khNQIPvahLsTWG4zvQ5g";
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apikey}`;
+  const apiKey = "AIzaSyAM6BNPBrzGrHNH8SaoeteoRC4tCMcnRr0";
+  const apiUrl = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 
   async function sendMessageToLlm() {
     const newMessages = [...messages, { role: "user", content: input }];
@@ -19,21 +19,21 @@ const App = () => {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          contents: [
-            { role: "user", parts: [{ text: input }] }
-          ]
+          model: "gemini-2.5-flash-lite",
+          messages: newMessages
         })
       });
 
       const data = await response.json();
       console.log("Reply:", data);
 
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+      const reply = data.choices?.[0]?.message?.content || "No response";
 
-      setMessages([...newMessages, { role: "assistant", content: text }]);
+      setMessages([...newMessages, { role: "assistant", content: reply }]);
     } catch (error) {
       console.error("Error calling Gemini API:", error);
     }
