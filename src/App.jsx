@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import './App.css';
 
 const App = () => {
@@ -46,7 +47,11 @@ const App = () => {
           <div className="messages">
             {messages.filter(m => m.role !== "system").map((m, i) => (
               <div key={i} className={`message ${m.role}`}>
-                {m.content}
+                {m.role === "assistant" ? (
+                  <ReactMarkdown>{m.content}</ReactMarkdown>
+                ) : (
+                  m.content
+                )}
               </div>
             ))}
           </div>
