@@ -1,6 +1,7 @@
+// Import the functions you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -13,8 +14,17 @@ const firebaseConfig = {
   measurementId: "G-KTG8XM21FZ"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 // Export services you need
-export const auth = getAuth(app);   
-export const db = getFirestore(app); 
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+// ✅ Correct way: no need to pass `app` to GoogleAuthProvider
+export const googleProvider = new GoogleAuthProvider();
+
+export { signInWithPopup };
+
+export default app;
+
