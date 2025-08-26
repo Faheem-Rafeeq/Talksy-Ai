@@ -1,19 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../config/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { 
   CopyIcon, UserIcon, BotIcon, SendIcon, LoadingDots, 
   LogoutIcon, HistoryIcon, PlusIcon 
 } from './Icons';
 
+
 const Chats = () => {
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedChat, setSelectedChat] = useState(0);
-  const messagesEndRef = useRef(null);
-  const { currentUser, logout } = useAuth();
-  
+    const [input, setInput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [selectedChat, setSelectedChat] = useState(0);
+    const messagesEndRef = useRef(null);
+    const { currentUser, logout } = useAuth();
+    
+    const navigate = useNavigate();
   // Sample chat history data
   const [chatHistory, setChatHistory] = useState([
     {
@@ -44,6 +47,7 @@ const Chats = () => {
   const handleLogout = async () => {
     try {
       await logout();
+      navigate("/")
     } catch (error) {
       console.error('Failed to log out', error);
     }
@@ -57,7 +61,7 @@ const Chats = () => {
       messages: [
         { 
           role: "assistant", 
-          content: "Hello!",
+          content: "Hello! I am Talksy Ai how i can assist you",
           timestamp: new Date()
         }
       ],
