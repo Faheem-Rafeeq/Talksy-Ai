@@ -14,21 +14,7 @@ const MenuIcon = (props) => (
     </svg>
 );
 
-const SunIcon = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364 1.818l-1.591 1.591M21 12h-2.25m-1.818 6.364l-1.591-1.591M12 21v-2.25m-6.364-1.818l1.591-1.591M3 12h2.25m1.818-6.364l1.591 1.591" />
-    </svg>
-);
-
-const MoonIcon = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.276-2.604.792-3.75 1.041 1.841 2.684 3.484 4.525 4.525A9.728 9.728 0 0112 21.75a9.717 9.717 0 01-5.75-.826C6.39 20.395 5.25 18.995 5.25 17.25z" />
-    </svg>
-);
-
-
 const Chats = () => {
-    const [darkMode, setDarkMode] = useState(true); // Default to dark mode
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +31,7 @@ const Chats = () => {
             messages: [
                 {
                     role: "assistant",
-                    content: "Hello! I'm your AI assistant. How can I help you today?",
+                    content: "Hello! I'm Talksy AI assistant. How can I help you today?",
                     timestamp: new Date()
                 }
             ],
@@ -61,14 +47,8 @@ const Chats = () => {
     };
 
     useEffect(() => {
-        // Set initial theme based on state
-        if (darkMode) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
         scrollToBottom();
-    }, [chatHistory[selectedChat].messages, darkMode]);
+    }, [chatHistory[selectedChat].messages]);
 
     const handleLogout = async () => {
         try {
@@ -101,10 +81,6 @@ const Chats = () => {
     const selectChat = (index) => {
         setSelectedChat(index);
         setIsMenuOpen(false); // Close menu on chat selection
-    };
-
-    const formatTime = (date) => {
-        return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
     const formatDate = (date) => {
@@ -199,10 +175,6 @@ const Chats = () => {
         });
     };
 
-    const toggleTheme = () => {
-        setDarkMode(!darkMode);
-    };
-
     return (
         <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
             {/* Menu Dropdown - Overlay on mobile, side-panel on desktop */}
@@ -258,9 +230,6 @@ const Chats = () => {
                     <button onClick={handleLogout} className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" title="Logout">
                         <LogoutIcon className="h-5 w-5" />
                     </button>
-                    <button onClick={toggleTheme} className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" title="Toggle Theme">
-                        {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-                    </button>
                 </div>
             </div>
 
@@ -275,8 +244,8 @@ const Chats = () => {
                     <div className="w-8"></div> {/* Spacer to center title */}
                 </header>
 
-                {/* Conversation Area */}
-                <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-24"> {/* pb-24 to prevent fixed input from hiding content */}
+                {/* Conversation Area - Added padding at the bottom to prevent overlap */}
+                <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-4"> {/* Increased padding-bottom */}
                     <div className="max-w-3xl mx-auto space-y-6">
                         {chatHistory[selectedChat].messages.filter(m => m.role !== "system").map((m, i) => (
                             <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -337,9 +306,9 @@ const Chats = () => {
                     </div>
                 </div>
 
-                {/* Floating, Static Input Area */}
-                <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-950 p-4 border-t border-gray-200 dark:border-gray-800">
-                    <div className="max-w-3xl mx-auto">
+                {/* Fixed Input Area - Made it sticky instead of fixed for better compatibility */}
+                <div className="sticky bottom-0 left-0 right-0 p-4 border-t bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 flex justify-center">
+                    <div className="w-full max-w-3xl">
                         <div className="flex items-end gap-2">
                             <div className="flex-1 relative">
                                 <textarea
