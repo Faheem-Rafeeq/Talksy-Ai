@@ -7,6 +7,8 @@ import {
     LogoutIcon, HistoryIcon, PlusIcon
 } from './Icons';
 
+import { IoMdLogOut } from "react-icons/io";
+
 // New Icons for the UI
 const MenuIcon = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" {...props}>
@@ -223,13 +225,15 @@ const Chats = () => {
                             )}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate">{currentUser?.displayName || currentUser?.email || 'User'}</p>
+                            <div className="text-sm font-medium truncate">{currentUser?.displayName || currentUser?.email || 'User'}
+                                                    <button onClick={handleLogout} className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" title="Logout">
+                        <IoMdLogOut  className="h-5 w-5" />
+                    </button>
+                            </div>
                             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{currentUser?.email}</p>
                         </div>
                     </div>
-                    <button onClick={handleLogout} className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" title="Logout">
-                        <LogoutIcon className="h-5 w-5" />
-                    </button>
+
                 </div>
             </div>
 
