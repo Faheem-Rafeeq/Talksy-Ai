@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
+import { useAuth } from "../config/AuthContext";
 import {
     SparklesIcon,
     ChatBubbleLeftRightIcon,
@@ -31,6 +32,8 @@ const LandingPage = () => {
         }
     };
 
+const {currentUser} = useAuth();
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-800 dark:from-slate-900 dark:to-slate-950 dark:text-slate-100">
             {/* Navigation */}
@@ -50,7 +53,7 @@ const LandingPage = () => {
                             <a href="#team" className="hover:text-indigo-600 transition-colors">Team</a>
                         </div>
 
-                                                <Link to="/signup">
+                        <Link to="/signup">
                             <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                                 Sign Up
                             </button>
@@ -73,17 +76,36 @@ const LandingPage = () => {
 
                     {/* Responsive buttons */}
                     <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-                        <Link to="/login" className="w-full sm:w-auto">
-                            <button className="w-full sm:w-auto bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center">
-                                <SparklesIcon className="h-5 w-5 mr-2" />
-                                Try Talksy
-                            </button>
-                        </Link>
-                        <Link to="/login" className="w-full sm:w-auto">
-                            <button className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                Login
-                            </button>
-                        </Link>
+                        {currentUser ? (
+                            <>
+                                <Link to="/chats" className="w-full sm:w-auto">
+                                    <button className="w-full sm:w-auto bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center">
+                                        <SparklesIcon className="h-5 w-5 mr-2" />
+                                        Try Talksy
+                                    </button>
+                                </Link>
+                                <Link to="/login" className="w-full sm:w-auto">
+                                    <button className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                        Login
+                                    </button>
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/login" className="w-full sm:w-auto">
+                                    <button className="w-full sm:w-auto bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center">
+                                        <SparklesIcon className="h-5 w-5 mr-2" />
+                                        Try Talksy
+                                    </button>
+                                </Link>
+                                <Link to="/login" className="w-full sm:w-auto">
+                                    <button className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                        Login
+                                    </button>
+                                </Link>
+                            </>
+                        )}
+
                     </div>
                 </div>
             </section>

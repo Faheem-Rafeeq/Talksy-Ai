@@ -226,9 +226,9 @@ const Chats = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                             <div className="text-sm font-medium truncate">{currentUser?.displayName || currentUser?.email || 'User'}
-                                                    <button onClick={handleLogout} className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" title="Logout">
-                        <IoMdLogOut  className="h-5 w-5" />
-                    </button>
+                                <button onClick={handleLogout} className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" title="Logout">
+                                    <IoMdLogOut className="h-5 w-5" />
+                                </button>
                             </div>
                             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{currentUser?.email}</p>
                         </div>
@@ -260,11 +260,21 @@ const Chats = () => {
                                 >
                                     <div className="flex items-start gap-2">
                                         <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${m.role === "user" ? "bg-indigo-700" : "bg-gray-300 dark:bg-gray-700"}`}>
-                                            {m.role === "user" ? (
-                                                <UserIcon className="h-4 w-4 text-white" />
-                                            ) : (
-                                                <BotIcon className="h-4 w-4 text-gray-700 dark:text-gray-300" />
-                                            )}
+                                            <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${m.role === "user" ? "bg-indigo-700" : "bg-gray-300 dark:bg-gray-700"}`}>
+                                                {m.role === "user" ? (
+                                                    currentUser?.photoURL ? (
+                                                        <img
+                                                            src={currentUser.photoURL}
+                                                            alt="Profile"
+                                                            className="w-7 h-7 rounded-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <UserIcon className="h-4 w-4 text-white" />
+                                                    )
+                                                ) : (
+                                                    <BotIcon className="h-4 w-4 text-gray-700 dark:text-gray-300" />
+                                                )}
+                                            </div>
                                         </div>
                                         <div className="flex-1">
                                             {m.role === "assistant" ? (
